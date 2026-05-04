@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BioBotany | Guia de Garrafadas</title>
+
+    <!-- META PIXEL + SETUP AVANÇADO DE RASTREAMENTO -->
+    <script>
+      (function () {
+        window.BIOBOTANY_TRACKING = {
+          pixelId: '1591539398723711',
+          checkoutUrl: 'https://ggcheckout.app/checkout/v2/87kXSY6dEVBJhu4NJb8t',
+          productName: 'Upsell 600 Receitas Naturais',
+          productCategory: 'Remédios Naturais',
+          value: 19.90,
+          currency: 'BRL'
+        };
+
+        var TRACKING = window.BIOBOTANY_TRACKING;
+
+        function getParam(name) {
+          var params = new URLSearchParams(window.location.search);
+          return params.get(name) || '';
+        }
+
+        function saveTrafficData() {
+          var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
+          keys.forEach(function (key) {
+            var value = getParam(key);
+            if (value) localStorage.setItem('bio_' + key, value);
+          });
+
+          var fbclid = getParam('fbclid') || localStorage.getItem('bio_fbclid');
+          if (fbclid && !localStorage.getItem('bio_fbc')) {
+            localStorage.setItem('bio_fbc', 'fb.1.' + Date.now() + '.' + fbclid);
+          }
+        }
+
+        function buildCheckoutUrl(originalUrl) {
+          var url = new URL(originalUrl || TRACKING.checkoutUrl, window.location.href);
+          var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid', 'gclid'];
+
+          keys.forEach(function (key) {
+            var value = getParam(key) || localStorage.getItem('bio_' + key);
+            if (value && !url.searchParams.get(key)) url.searchParams.set(key, value);
+          });
+
+          if (!url.searchParams.get('utm_source')) url.searchParams.set('utm_source', 'facebook');
+          if (!url.searchParams.get('utm_medium')) url.searchParams.set('utm_medium', 'paid_social');
+          if (!url.searchParams.get('utm_campaign')) url.searchParams.set('utm_campaign', 'biobotany_upsell_600_receitas');
+          if (!url.searchParams.get('utm_content')) url.searchParams.set('utm_content', 'botao_checkout');
+
+          return url.toString();
+        }
+
+        function eventId(prefix) {
+          return prefix + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+        }
+
+        window.bioTrackCheckout = function (url) {
+          var finalUrl = buildCheckoutUrl(url);
+          var id = eventId('InitiateCheckout');
+
+          if (typeof fbq === 'function') {
+            fbq('track', 'InitiateCheckout', {
+              content_name: TRACKING.productName,
+              content_category: TRACKING.productCategory,
+              content_type: 'product',
+              value: TRACKING.value,
+              currency: TRACKING.currency
+            }, { eventID: id });
+          }
+
+          setTimeout(function () {
+            window.location.href = finalUrl;
+          }, 350);
+        };
+
+        saveTrafficData();
+
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+
+        fbq('init', TRACKING.pixelId);
+
+        fbq('track', 'PageView', {}, { eventID: eventId('PageView') });
+        fbq('track', 'ViewContent', {
+          content_name: TRACKING.productName,
+          content_category: TRACKING.productCategory,
+          content_type: 'product',
+          value: TRACKING.value,
+          currency: TRACKING.currency
+        }, { eventID: eventId('ViewContent') });
+
+        document.addEventListener('click', function (e) {
+          var link = e.target.closest && e.target.closest('a[href*="ggcheckout.app/checkout"]');
+          if (!link) return;
+
+          e.preventDefault();
+          window.bioTrackCheckout(link.href);
+        }, true);
+      })();
+    </script>
+
+    <noscript>
+      <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1591539398723711&ev=PageView&noscript=1" />
+    </noscript>
+    <!-- FIM META PIXEL -->
+
+    <script type="module" crossorigin src="./assets/index-1NOsV3AX.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BXE2Jc2_.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
